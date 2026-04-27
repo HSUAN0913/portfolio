@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog | Yuanlin Lin 林沅霖</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #ffffff;
+      --text: #111111;
+      --muted: #555555;
+      --hint: #999999;
+      --border: rgba(0,0,0,0.1);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0f0f0f;
+        --text: #eeeeee;
+        --muted: #aaaaaa;
+        --hint: #666666;
+        --border: rgba(255,255,255,0.1);
+      }
+    }
+
+    html, body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* ── Header ── */
+    .site-header {
+      padding: 2rem 0 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .header-name {
+      font-size: 17px;
+      font-weight: 500;
+      margin-bottom: 2px;
+    }
+
+    .header-sub {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .header-socials {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .header-socials a {
+      color: var(--muted);
+      transition: color 0.15s;
+      display: flex;
+      align-items: center;
+    }
+
+    .header-socials a:hover { color: var(--text); }
+    .header-socials svg { width: 16px; height: 16px; fill: currentColor; }
+
+    /* ── Grid ── */
+    .post-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      align-items: start;
+    }
+
+    .post-grid > .post-card:first-child {
+      grid-column: span 2;
+    }
+
+    /* ── Post Card ── */
+    .post-card {
+      display: block;
+      border-radius: 10px;
+      overflow: hidden;
+      transition: background 0.15s;
+    }
+
+    .post-card:hover { background: rgba(0,0,0,0.03); }
+
+    @media (prefers-color-scheme: dark) {
+      .post-card:hover { background: rgba(255,255,255,0.04); }
+    }
+
+    .post-cover-wrap {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      border-radius: 8px;
+      margin-bottom: 0.85rem;
+      background: #d0d0d0;
+    }
+
+    .post-cover-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .post-card:hover .post-cover-wrap img { transform: scale(1.03); }
+
+    .post-body { padding: 0 0.25rem 0.75rem; }
+
+    .post-title {
+      font-family: 'Noto Serif TC', 'Georgia', serif;
+      font-size: 14.5px;
+      font-weight: 600;
+      line-height: 1.55;
+      margin-bottom: 0.35rem;
+      color: var(--text);
+    }
+
+    .post-card:first-child .post-title { font-size: 18px; }
+
+    .post-date {
+      font-size: 12px;
+      color: var(--hint);
+      margin-bottom: 0.4rem;
+    }
+
+    .post-excerpt {
+      font-size: 12.5px;
+      line-height: 1.65;
+      color: var(--muted);
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* ── Discord Banner ── */
+    .discord-card {
+      border-radius: 10px;
+      background: #F5A623;
+      padding: 1.5rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      cursor: pointer;
+      transition: filter 0.15s;
+    }
+
+    .discord-card:hover { filter: brightness(0.95); }
+
+    .discord-join-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: rgba(0,0,0,0.5);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .discord-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.35;
+    }
+
+    .discord-desc {
+      font-size: 12.5px;
+      color: rgba(255,255,255,0.88);
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .discord-icon {
+      width: 28px;
+      height: 28px;
+      fill: white;
+      margin-top: 0.5rem;
+    }
+
+    /* ── Footer ── */
+    .site-footer {
+      padding: 2rem 0;
+      margin-top: 2.5rem;
+      border-top: 0.5px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--hint);
+    }
+
+    .footer-link {
+      color: var(--hint);
+      transition: color 0.15s;
+    }
+    .footer-link:hover { color: var(--muted); }
+
+    /* ── Responsive ── */
+    @media (max-width: 680px) {
+      .post-grid { grid-template-columns: 1fr; }
+      .post-grid > .post-card:first-child { grid-column: span 1; }
+      .post-card:first-child .post-title { font-size: 16px; }
+    }
+
+    @media (min-width: 681px) and (max-width: 860px) {
+      .post-grid { grid-template-columns: repeat(2, 1fr); }
+      .post-grid > .post-card:first-child { grid-column: span 2; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <header class="site-header">
+    <div class="header-name">Yuanlin Lin</div>
+    <div class="header-sub">Blog</div>
+    <div class="header-socials">
+      <a href="#" title="GitHub">
+        <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+      </a>
+      <a href="#" title="X / Twitter">
+        <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.258 5.63 5.906-5.63zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <a href="#" title="LinkedIn">
+        <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      </a>
+      <a href="#" title="Instagram">
+        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+      </a>
+      <a href="#" title="Facebook">
+        <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+      </a>
+      <a href="#" title="RSS">
+        <svg viewBox="0 0 24 24"><path d="M6.18 15.64a2.18 2.18 0 0 1 2.18 2.18C8.36 19.01 7.38 20 6.18 20C4.98 20 4 19.01 4 17.82a2.18 2.18 0 0 1 2.18-2.18M4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44m0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93V10.1z"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <div class="post-grid">
+
+      <a class="post-card" href="#">
+        <div class="post-cover-wrap">
+          <img src="https://images.unsplash.com/photo-1677756119517-756a188d2d94?fit=crop&w=900&q=75" alt="AI n8n" loading="lazy">
+        </div>
+        <div class="post-body">
+          <div class="post-title">當 AI 寫程式遇上 n8n 工作流自動化 —— 低門檻卻能力無限！</div>
+          <div class="post-date">2025-02-21</div>
+          <div class="post-excerpt">我最近觀察到身邊有一些平常有在用 n8n 來自動化自己日常工作流的同學們，開始嘗試搭配 AI 寫程式的方式，來強化他的 n8n 工作流，比如說叫 ChatGPT 寫一個 Discord 機器人，然後當…</div>
+        </div>
+      </a>
+
+      <a class="post-card" href="#">
+        <div class="post-cover-wrap">
+          <img src="https://images.unsplash.com/photo-1614064641938-3bbee52942c7?fit=crop&w=500&q=75" alt="Supabase" loading="lazy">
+        </div>
+        <div class="post-body">
+          <div class="post-title">原來在 Google Cloud 部署自己的 Supabase 這麼簡單！</div>
+          <div class="post-date">2024-06-09</div>
+          <div class="post-excerpt">Supabase 是一個開源的後端即服務（BaaS），今天帶大家在 Google Cloud 上快速自架…</div>
+        </div>
+      </a>
+
+      <a class="discord-card" href="https://discord.gg/Nyke4bBWJh" target="_blank" rel="noopener">
+        <div class="discord-join-label">立即加入</div>
+        <div class="discord-title">Chief Noob<br>菜雞開發社群</div>
+        <div class="discord-desc">與其他開發者同學們分享交流程式語言、前後端開發、產品設計、系統架構等話題！</div>
+        <svg class="discord-icon" viewBox="0 0 24 24"><path d="M20.317 4.37a19.8 19.8 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+      </a>
+
+      <a class="post-card" href="#">
+        <div class="post-cover-wrap">
+          <img src="https://images.unsplash.com/photo-1586979816990-1819efcad0de?fit=crop&w=500&q=75" alt="Django Celery" loading="lazy">
+        </div>
+        <div class="post-body">
+          <div class="post-title">帶你用 Zeabur 部署 Django + Celery 任務佇列到 AWS</div>
+          <div class="post-date">2024-05-22</div>
+          <div class="post-excerpt">示範如何從零初始化 Django 專案，加入 Celery 進行異步任務處理，並部署上線…</div>
+        </div>
+      </a>
+
+      <a class="post-card" href="#">
+        <div class="post-cover-wrap">
+          <img src="https://images.unsplash.com/photo-1600267204091-5c1ab8b10c02?fit=crop&w=500&q=75" alt="Next.js Notion" loading="lazy">
+        </div>
+        <div class="post-body">
+          <div class="post-title">三分鐘學會在 Next.js 14 裡面把 Notion 當資料庫用</div>
+          <div class="post-date">2024-03-24</div>
+          <div class="post-excerpt">發現經常需要一個輕量化的 CMS，除了要有 API 可以讓網站串接，還需要非開發者也能操作的介面…</div>
+        </div>
+      </a>
+
+      <a class="post-card" href="#">
+        <div class="post-cover-wrap">
+          <img src="https://images.unsplash.com/photo-1611746869696-d09bce200020?fit=crop&w=500&q=75" alt="Line Bot" loading="lazy">
+        </div>
+        <div class="post-body">
+          <div class="post-title">一起來用 Python 開發 Line 機器人吧！</div>
+          <div class="post-date">2024-02-27</div>
+          <div class="post-excerpt">介紹如何用最短的時間搞定用 Python 開發 Line 機器人的基本環境設定以及雲端部署流程…</div>
+        </div>
+      </a>
+
+      <a class="post-card" href="#">
+        <div class="post-cover-wrap">
+          <img src="https://images.unsplash.com/photo-1541746972996-4e0b0f43e02a?fit=crop&w=500&q=75" alt="環境變數" loading="lazy">
+        </div>
+        <div class="post-body">
+          <div class="post-title">程式也會要「讀空氣」：從零開始認識環境變數</div>
+          <div class="post-date">2024-02-15</div>
+          <div class="post-excerpt">程式在執行時需要根據不同「場合」做出不同行為，就好像我們在處理人際關係需要讀空氣…</div>
+        </div>
+      </a>
+
+      <a class="post-card" href="#">
+        <div class="post-cover-wrap">
+          <img src="https://images.unsplash.com/photo-1587293852726-70cdb56c2866?fit=crop&w=500&q=75" alt="OSS" loading="lazy">
+        </div>
+        <div class="post-body">
+          <div class="post-title">為什麼你應該使用 OSS（物件存儲服務）而不是直接存在本地？</div>
+          <div class="post-date">2023-10-06</div>
+          <div class="post-excerpt">許多朋友準備為專案後端加入儲存檔案的功能時，都會遇到一個問題：我該如何儲存使用者上傳的檔案？</div>
+        </div>
+      </a>
+
+      <a class="post-card" href="#">
+        <div class="post-cover-wrap">
+          <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?fit=crop&w=500&q=75" alt="酷工具" loading="lazy">
+        </div>
+        <div class="post-body">
+          <div class="post-title">分享 2023 我開始使用的一些酷工具</div>
+          <div class="post-date">2023-02-27</div>
+          <div class="post-excerpt">最近發現自己把一些用了很久的工具換成新的酷東西了，來寫一篇自己的日常工具軟體分享…</div>
+        </div>
+      </a>
+
+      <a class="post-card" href="#">
+        <div class="post-cover-wrap">
+          <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?fit=crop&w=500&q=75" alt="Zeabur" loading="lazy">
+        </div>
+        <div class="post-body">
+          <div class="post-title">我把部落格從 Vercel 搬到自己開發的平台 Zeabur 了</div>
+          <div class="post-date">2023-02-13</div>
+          <div class="post-excerpt">和大家分享我把部落格從 Vercel 搬到另一個我自己開發的服務部署平台 Zeabur 的過程…</div>
+        </div>
+      </a>
+
+      <a class="post-card" href="#">
+        <div class="post-cover-wrap">
+          <img src="https://images.unsplash.com/photo-1521316973612-36489899f29b?fit=crop&w=500&q=75" alt="Markdown MDX" loading="lazy">
+        </div>
+        <div class="post-body">
+          <div class="post-title">一起來做筆記！什麼是 Markdown，什麼是 MDX？</div>
+          <div class="post-date">2022-07-28</div>
+          <div class="post-excerpt">當我們有知識或內容想要紀錄下來時，有許多形式可以選擇。如果覺得這些都太麻煩…</div>
+        </div>
+      </a>
+
+      <a class="post-card" href="#">
+        <div class="post-cover-wrap">
+          <img src="https://images.unsplash.com/photo-1518541224849-dbb8afd4c0e8?fit=crop&w=500&q=75" alt="GraphQL gqlgen" loading="lazy">
+        </div>
+        <div class="post-body">
+          <div class="post-title">GraphQL x Go! 淺談 gqlgen 為開發帶來的便利性</div>
+          <div class="post-date">2022-05-24</div>
+          <div class="post-excerpt">距離開始用 Go 開發後端已經有一段時間了，做了很多大大小小的專案，開始用 GIN 後嘗試了 GraphQL…</div>
+        </div>
+      </a>
+
+      <a class="post-card" href="#">
+        <div class="post-cover-wrap">
+          <img src="https://images.unsplash.com/photo-1517292987719-0369a794ec0f?fit=crop&w=500&q=75" alt="React Native" loading="lazy">
+        </div>
+        <div class="post-body">
+          <div class="post-title">原來 App 開發這麼簡單！React Native 基本介紹</div>
+          <div class="post-date">2022-05-17</div>
+          <div class="post-excerpt">如果你是 Web 前端工程師，或剛學會 HTML/CSS/JS 的同學，你一定聽過 React、Vue、Angular 三大框架…</div>
+        </div>
+      </a>
+
+      <a class="post-card" href="#">
+        <div class="post-cover-wrap">
+          <img src="https://images.unsplash.com/photo-1642083139428-9ee5fa423c46?fit=crop&w=500&q=75" alt="Vercel 部署" loading="lazy">
+        </div>
+        <div class="post-body">
+          <div class="post-title">把你的網站上線吧！超詳細 Vercel 網站部署教學</div>
+          <div class="post-date">2022-05-12</div>
+          <div class="post-excerpt">在學會 HTML/CSS/JS 以後，你能實現出一個完整的網站，然而只有你自己能從 localhost 看到…</div>
+        </div>
+      </a>
+
+      <a class="post-card" href="#">
+        <div class="post-cover-wrap">
+          <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?fit=crop&w=500&q=75" alt="CSS Preprocessor" loading="lazy">
+        </div>
+        <div class="post-body">
+          <div class="post-title">那些比 CSS 好用的東西 - CSS Preprocessor</div>
+          <div class="post-date">2022-05-06</div>
+          <div class="post-excerpt">對剛入門 Web 前端的同學，HTML、CSS、JavaScript 是一定會學到的三大技術，但 CSS 也有更進化的選擇…</div>
+        </div>
+      </a>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <span>© 2026 Yuanlin Lin. All rights reserved.</span>
+    <a class="footer-link" href="https://zeabur.com" target="_blank" rel="noopener">Deployed on Zeabur</a>
+  </footer>
+
+</div>
+</body>
+</html>
